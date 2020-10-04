@@ -1,0 +1,22 @@
+# Book settings
+title: scf documentation
+author: Max Ghenis
+
+launch_buttons:
+  colab_url: "https://colab.research.google.com"
+
+repository:
+  url: https://github.com/MaxGhenis/scf
+  branch: master
+  path_to_book: docs
+
+html:
+  use_edit_page_button  : true
+  use_repository_button : true
+  use_issues_button     : true
+
+sphinx:
+  extra_extensions          : ['sphinx.ext.autodoc', 'sphinx.ext.mathjax',
+                               'sphinx.ext.viewcode', 'sphinx.ext.napoleon',
+                               'alabaster']   # A list of extra extensions to load by Sphinx.
+  config                    :   # key-value pairs to directly over-ride the Sphinx configuration

@@ -5,6 +5,7 @@ import pandas as pd
 VALID_YEARS = [1986, 1989, 1992, 1995, 1998, 2001, 2004, 2007, 2010,
                2013, 2016, 2019]
 
+
 def scf_url(year: int):
     """ Returns the URL of the SCF summary microdata zip file for a year.
 

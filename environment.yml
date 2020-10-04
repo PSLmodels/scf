@@ -8,5 +8,5 @@ dependencies:
 - pytest
 - setuptools
 - pip:
-  - "--editable=git+https://github.com/PSLmodels/microdf.git"
+  - git+https://github.com/PSLmodels/microdf.git
   - jupyter-book

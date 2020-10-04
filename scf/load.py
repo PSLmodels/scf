@@ -2,6 +2,10 @@ import microdf as mdf
 import pandas as pd
 
 
+VALID_YEARS = [1986, 1989, 1992, 1995, 1998, 2001, 2004, 2007, 2010,
+               2013, 2016, 2019]
+
+
 def scf_url(year: int):
     """ Returns the URL of the SCF summary microdata zip file for a year.
 
@@ -10,7 +14,8 @@ def scf_url(year: int):
     :return: URL of summary microdata zip file for the given year.
     :rtype: str
     """
-    return ('https://www.federalreserve.gov/econres/files/scfp' + 
+    assert year in VALID_YEARS, "The SCF is not available for " + str(year)
+    return ('https://www.federalreserve.gov/econres/files/scfp' +
             str(year) + 's.zip')
 
 
@@ -39,9 +44,11 @@ def load(years: list, cols: list):
     :return: SCF summary microdata for the set of years.
     :rtype: pd.DataFrame
     """
+    # Make cols a list if a single column is passed.
+    cols = mdf.listify(cols)
     # If years is a single year rather than a list, return without a loop.
     if isinstance(years, int):
-        return load_single_scf(year, cols)
+        return load_single_scf(years, cols)
     # Otherwise append to a list within a loop, and return concatenation.
     scfs = []
     for year in years:

@@ -14,7 +14,7 @@ def scf_url(year: int):
     :rtype: str
     """
     assert year in VALID_YEARS, "The SCF is not available for " + str(year)
-    return ('https://www.federalreserve.gov/econres/files/scfp' + 
+    return ('https://www.federalreserve.gov/econres/files/scfp' +
             str(year) + 's.zip')
 
 

@@ -19,7 +19,7 @@ def scf_url(year: int):
             str(year) + 's.zip')
 
 
-def load_single_scf(year: int, cols: list):
+def load_single_scf(year: year, cols: list):
     """ Loads SCF summary microdata for a given year and set of columns.
 
     :param year: Year of SCF summary microdata to retrieve.
@@ -34,7 +34,7 @@ def load_single_scf(year: int, cols: list):
     return mdf.read_stata_zip(scf_url(year), columns=cols)
 
 
-def load(years: list, cols: list):
+def load(years: list=VALID_YEARS, cols: list=None):
     """ Loads SCF summary microdata for a set of years and columns.
 
     :param years: Year(s) to load SCF data for. Can be a list or single number.

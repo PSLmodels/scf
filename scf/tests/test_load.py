@@ -18,3 +18,18 @@ def test_load_single_year():
     res = scf.load(2016, 'networth')
     # Should return the specified column, plus wgt (not year).
     assert equal_elements(res.columns, ['networth', 'wgt'])
+
+
+def test_load_all_columns():
+    # Test with a single year and all columns.
+    res = scf.load(2019)
+    # Should return data with many columns.
+    assert res.columns.size > 0
+
+
+def test_load_all_years():
+    # Test with a single columns and all years.
+    res = scf.load(cols='wgt')
+    # Should return data with many rows and one column.
+    assert res.size > 0
+    assert res.columns.size == 1

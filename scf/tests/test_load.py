@@ -23,8 +23,8 @@ def test_load_single_year():
 def test_load_all_columns():
     # Test with a single year and all columns.
     res = scf.load(2019)
-    # Should return data with many columns.
-    assert res.columns.size > 0
+    # Should return data with many columns (generally 300-400).
+    assert res.columns.size > 100
 
 
 def test_load_all_years():

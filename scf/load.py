@@ -2,7 +2,7 @@ import microdf as mdf
 import pandas as pd
 
 
-VALID_YEARS = [1986, 1989, 1992, 1995, 1998, 2001, 2004, 2007, 2010,
+VALID_YEARS = [1989, 1992, 1995, 1998, 2001, 2004, 2007, 2010,
                2013, 2016, 2019]
 
 
@@ -19,7 +19,7 @@ def scf_url(year: int):
             str(year) + 's.zip')
 
 
-def load_single_scf(year: year, cols: list):
+def load_single_scf(year: int, cols: list):
     """ Loads SCF summary microdata for a given year and set of columns.
 
     :param year: Year of SCF summary microdata to retrieve.

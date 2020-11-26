@@ -30,6 +30,6 @@ def test_load_all_columns():
 def test_load_all_years():
     # Test with a single columns and all years.
     res = scf.load(cols='wgt')
-    # Should return data with many rows and one column.
+    # Should return data with many rows and two columns.
     assert res.size > 0
-    assert res.columns.size == 1
+    assert equal_elements(res.columns, ['year', 'wgt'])

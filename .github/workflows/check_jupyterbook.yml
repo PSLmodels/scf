@@ -2,7 +2,7 @@ name: Test that Jupyter-Book builds
 on: [push, pull_request]
 jobs:
   build:
-    if: github.repository == 'MaxGhenis/scf'
+    if: github.repository == 'PSLmodels/scf'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -11,7 +11,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Miniconda
-        uses: goanpeca/setup-miniconda@v1
+        uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: scf
           environment-file: environment.yml

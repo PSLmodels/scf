@@ -6,8 +6,8 @@ launch_buttons:
   colab_url: "https://colab.research.google.com"
 
 repository:
-  url: https://github.com/MaxGhenis/scf
-  branch: master
+  url: https://github.com/PSLmodels/scf
+  branch: main
   path_to_book: docs
 
 html:

@@ -40,8 +40,9 @@ def load_single_scf(year: int, cols: list) -> pd.DataFrame:
 
     :param year: Year of SCF summary microdata to retrieve.
     :type year: int
-    :param cols: List of columns. The weight column `wgt` is always returned.
-    :type cols: list
+    :param columns: List of columns. The weight column `wgt` is always
+        returned. Defaults to all columns in the summary dataset.
+    :type columns: list
     :return: SCF summary microdata for the given year.
     :rtype: pd.DataFrame
     """
@@ -56,6 +57,7 @@ def load(
     """ Loads SCF summary microdata for a set of years and columns.
 
     :param years: Year(s) to load SCF data for. Can be a list or single number.
+        Defaults to all available years, starting with 1989.
     :type years: list
     :param cols: List of columns. The weight column `wgt` is always returned.
     :type cols: list

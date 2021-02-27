@@ -1,13 +1,13 @@
-name: Build and test [Python 3.6, 3.7, 3.8]
+name: Build and test [Python 3.7, 3.8]
 
-on: push
+on: [push, pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.7, 3.8]
 
     steps:
       - name: Checkout
@@ -16,7 +16,7 @@ jobs:
           persist-credentials: false
 
       - name: Setup Miniconda using Python ${{ matrix.python-version }}
-        uses: goanpeca/setup-miniconda@v1
+        uses: conda-incubator/setup-miniconda@v2
         with:
           activate-environment: scf
           environment-file: environment.yml

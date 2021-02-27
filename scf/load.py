@@ -70,7 +70,8 @@ def load(
     :rtype: Union[pd.DataFrame, mdf.MicroDataFrame]
     """
     # Make cols a list if a single column is passed.
-    columns = mdf.listify(columns)
+    if columns is not None:
+        columns = mdf.listify(columns)
     # If years is a single year rather than a list, don't use a loop.
     if isinstance(years, int):
         res = load_single_scf(years, columns)

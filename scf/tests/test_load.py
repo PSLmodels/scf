@@ -1,4 +1,5 @@
 import scf
+import microdf as mdf
 
 
 def equal_elements(l1, l2):
@@ -18,3 +19,7 @@ def test_load_single_year():
     res = scf.load(2016, 'networth')
     # Should return the specified column, plus wgt (not year).
     assert equal_elements(res.columns, ['networth', 'wgt'])
+
+def test_load_microdf():
+    res = scf.load(2019, 'networth', as_microdataframe=True)
+    assert isinstance(res, mdf.MicroDataFrame)

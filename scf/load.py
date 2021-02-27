@@ -1,5 +1,6 @@
 import microdf as mdf
 import pandas as pd
+from typing import Union
 
 
 VALID_YEARS = [
@@ -17,7 +18,7 @@ VALID_YEARS = [
 ]
 
 
-def scf_url(year: int):
+def scf_url(year: int) -> str:
     """ Returns the URL of the SCF summary microdata zip file for a year.
 
     :param year: Year of SCF summary microdata to retrieve.
@@ -33,7 +34,7 @@ def scf_url(year: int):
     )
 
 
-def load_single_scf(year: int, columns: list):
+def load_single_scf(year: int, columns: list) -> pd.DataFrame:
     """ Loads SCF summary microdata for a given year and set of columns.
 
     :param year: Year of SCF summary microdata to retrieve.
@@ -50,28 +51,39 @@ def load_single_scf(year: int, columns: list):
     return mdf.read_stata_zip(scf_url(year), columns=columns)
 
 
-def load(years: list = VALID_YEARS, columns: list = None):
+def load(
+    years: list = VALID_YEARS,
+    columns: list = None,
+    as_microdataframe: bool = False,
+) -> Union[pd.DataFrame, mdf.MicroDataFrame]:
     """ Loads SCF summary microdata for a set of years and columns.
 
     :param years: Year(s) to load SCF data for. Can be a list or single number.
         Defaults to all available years, starting with 1989.
     :type years: list
-    :param columns: List of columns. The weight column `wgt` is always
-        returned. Defaults to all columns in the summary dataset.
+    :param columns: List of columns. The weight column `wgt` is always returned.
     :type columns: list
+    :param as_microdataframe: Whether to return as a MicroDataFrame with
+        weight set, defaults to False.
+    :type as_microdataframe: bool
     :return: SCF summary microdata for the set of years.
-    :rtype: pd.DataFrame
+    :rtype: Union[pd.DataFrame, mdf.MicroDataFrame]
     """
     # Make cols a list if a single column is passed.
     if columns is not None:
         columns = mdf.listify(columns)
-    # If years is a single year rather than a list, return without a loop.
+    # If years is a single year rather than a list, don't use a loop.
     if isinstance(years, int):
-        return load_single_scf(years, columns)
-    # Otherwise append to a list within a loop, and return concatenation.
-    scfs = []
-    for year in years:
-        tmp = load_single_scf(year, columns)
-        tmp["year"] = year
-        scfs.append(tmp)
-    return pd.concat(scfs)
+        res = load_single_scf(years, columns)
+    # Otherwise append to a list within a loop, and concatenate.
+    else:
+        scfs = []
+        for year in years:
+            tmp = load_single_scf(year, columns)
+            tmp["year"] = year
+            scfs.append(tmp)
+        res = pd.concat(scfs)
+    # Return as a MicroDataFrame or DataFrame.
+    if as_microdataframe:
+        return mdf.MicroDataFrame(res, weights="wgt")
+    return res

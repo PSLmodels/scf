@@ -1,4 +1,5 @@
 import scf
+import microdf as mdf
 
 
 def equal_elements(l1, l2):
@@ -33,3 +34,8 @@ def test_load_all_years():
     # Should return data with many rows and two columns.
     assert res.size > 0
     assert equal_elements(res.columns, ["year", "wgt"])
+
+
+def test_load_microdf():
+    res = scf.load(2019, "networth", as_microdataframe=True)
+    assert isinstance(res, mdf.MicroDataFrame)

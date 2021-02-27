@@ -52,7 +52,9 @@ def load_single_scf(year: int, columns: list) -> pd.DataFrame:
 
 
 def load(
-    years: list, columns: list, as_microdataframe: bool = False
+    years: list = VALID_YEARS,
+    columns: list = None,
+    as_microdataframe: bool = False,
 ) -> Union[pd.DataFrame, mdf.MicroDataFrame]:
     """ Loads SCF summary microdata for a set of years and columns.
 

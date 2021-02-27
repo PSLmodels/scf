@@ -2,8 +2,20 @@ import microdf as mdf
 import pandas as pd
 
 
-VALID_YEARS = [1986, 1989, 1992, 1995, 1998, 2001, 2004, 2007, 2010,
-               2013, 2016, 2019]
+VALID_YEARS = [
+    1986,
+    1989,
+    1992,
+    1995,
+    1998,
+    2001,
+    2004,
+    2007,
+    2010,
+    2013,
+    2016,
+    2019,
+]
 
 
 def scf_url(year: int):
@@ -15,8 +27,11 @@ def scf_url(year: int):
     :rtype: str
     """
     assert year in VALID_YEARS, "The SCF is not available for " + str(year)
-    return ('https://www.federalreserve.gov/econres/files/scfp' +
-            str(year) + 's.zip')
+    return (
+        "https://www.federalreserve.gov/econres/files/scfp"
+        + str(year)
+        + "s.zip"
+    )
 
 
 def load_single_scf(year: int, cols: list):
@@ -30,19 +45,22 @@ def load_single_scf(year: int, cols: list):
     :rtype: pd.DataFrame
     """
     # Add wgt to all returns.
-    cols = list(set(cols) | set(['wgt']))
+    cols = list(set(cols) | set(["wgt"]))
     return mdf.read_stata_zip(scf_url(year), columns=cols)
 
 
-def load(years: list, cols: list):
+def load(years: list, cols: list, as_microdataframe: bool = False):
     """ Loads SCF summary microdata for a set of years and columns.
 
     :param years: Year(s) to load SCF data for. Can be a list or single number.
     :type years: list
     :param cols: List of columns. The weight column `wgt` is always returned.
     :type cols: list
+    :param as_microdataframe: Whether to return as a MicroDataFrame with
+        weight set, defaults to False.
+    :type as_microdataframe: bool
     :return: SCF summary microdata for the set of years.
-    :rtype: pd.DataFrame
+    :rtype: Union[pd.DataFrame, mdf.MicroDataFrame]
     """
     # Make cols a list if a single column is passed.
     cols = mdf.listify(cols)
@@ -53,6 +71,9 @@ def load(years: list, cols: list):
     scfs = []
     for year in years:
         tmp = load_single_scf(year, cols)
-        tmp['year'] = year
+        tmp["year"] = year
         scfs.append(tmp)
-    return pd.concat(scfs)
+    res = pd.concat(scfs)
+    if as_microdataframe:
+        return mdf.MicroDataFrame(res, weights="wgt")
+    return res

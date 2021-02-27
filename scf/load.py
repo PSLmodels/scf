@@ -67,16 +67,18 @@ def load(
     """
     # Make cols a list if a single column is passed.
     cols = mdf.listify(cols)
-    # If years is a single year rather than a list, return without a loop.
+    # If years is a single year rather than a list, don't use a loop.
     if isinstance(years, int):
-        return load_single_scf(years, cols)
-    # Otherwise append to a list within a loop, and return concatenation.
-    scfs = []
-    for year in years:
-        tmp = load_single_scf(year, cols)
-        tmp["year"] = year
-        scfs.append(tmp)
-    res = pd.concat(scfs)
+        res = load_single_scf(years, cols)
+    # Otherwise append to a list within a loop, and concatenate.
+    else:
+        scfs = []
+        for year in years:
+            tmp = load_single_scf(year, cols)
+            tmp["year"] = year
+            scfs.append(tmp)
+        res = pd.concat(scfs)
+    # Return as a MicroDataFrame or DataFrame.
     if as_microdataframe:
         return mdf.MicroDataFrame(res, weights="wgt")
     return res

@@ -1,5 +1,6 @@
 import microdf as mdf
 import pandas as pd
+from typing import Union
 
 
 VALID_YEARS = [
@@ -18,7 +19,7 @@ VALID_YEARS = [
 ]
 
 
-def scf_url(year: int):
+def scf_url(year: int) -> str:
     """ Returns the URL of the SCF summary microdata zip file for a year.
 
     :param year: Year of SCF summary microdata to retrieve.
@@ -34,7 +35,7 @@ def scf_url(year: int):
     )
 
 
-def load_single_scf(year: int, cols: list):
+def load_single_scf(year: int, cols: list) -> pd.DataFrame:
     """ Loads SCF summary microdata for a given year and set of columns.
 
     :param year: Year of SCF summary microdata to retrieve.
@@ -49,7 +50,9 @@ def load_single_scf(year: int, cols: list):
     return mdf.read_stata_zip(scf_url(year), columns=cols)
 
 
-def load(years: list, cols: list, as_microdataframe: bool = False):
+def load(
+    years: list, cols: list, as_microdataframe: bool = False
+) -> Union[pd.DataFrame, mdf.MicroDataFrame]:
     """ Loads SCF summary microdata for a set of years and columns.
 
     :param years: Year(s) to load SCF data for. Can be a list or single number.
